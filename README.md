@@ -1,7 +1,10 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
+**역주**:
+[029d78a](https://github.com/levionessa/elixir_style_guide/blob/029d78a6f963e780f9b470da81dc7284a5ceb5ff/README.md)을
+기준으로 번역했습니다.
 
-### Table of Contents
+### 목차
 
 * __[Prelude](#prelude)__
 * __[The Guide](#the-guide)__
@@ -34,61 +37,61 @@
 > play off each other, you make something, they make something. <br/>
 > —Frank Gehry
 
-Style matters.
-[Elixir] has plenty of style but like all languages it can be stifled.
-Don't stifle the style.
+스타일 중요합니다.
+[Elixir]는 많은 스타일을 가지고 있지만, 다른 언어와 마찬가지로 무시할 수
+있습니다.
+스타일을 무시하지 마세요.
 
-**NOTE**: When you submit a PR and it gets merged, you will be automatically added
-as a collaborator, but if you wouldn't like to be added, please mention it in
-your submission.
-People who have PRs merged have been added as collaborators.
+**주의**: PR을 던지고 그게 머지되면 자동으로 협업자에 추가됩니다. 추가를 원하지
+않으시면 제출할 때 말씀해주세요.
+PR이 머지되신 분은 협업자에 추가됩니다.
 
 
 ## The Guide
 
-This is our attempt at starting a community style guide for the
-[Elixir programming language][Elixir].
-Please feel free to make pull requests and contribute.
-We really want Elixir to have as vibrant of a community as any language that's
-been around five times as long.
+여기에 [Elixir 프로그레밍 언어][Elixir]의 커뮤니티 스타일 가이드를 만드려고
+합니다.
+편하게 풀리퀘스트를 던지거나 기여를 해주세요.
+정말로 훨씬 긴 역사를 가진 다른 언어보다 더 활발한 커뮤니티를 엘릭서가 가졌으면
+합니다.
 
-If you're looking for other projects to contribute to please see the
-[Hex package manager site][Hex].
+혹시 다른 프로젝트에 기여하고 싶으시면, [Hex 패키지 관리자 사이트][Hex]를
+참고하세요.
 
 
 ### Source Code Layout
 
 <!-- TODO: Add crafty quote here -->
 
-* Use two **spaces** per indentation level.
-  No hard tabs.
+* 들여쓰기로 2개의 **공백**을 사용하세요.
+  하드 텝을 사용하지 않습니다.
 
   ```elixir
-  # not preferred - four spaces
+  # 4 스페이스 - 권장하지 않음
   def some_function do
       do_something
   end
 
-  # preferred
+  # 권장함
   def some_function do
     do_something
   end
   ```
 
-* Use Unix-style line endings (\*BSD/Solaris/Linux/OSX users are covered by
-  default, Windows users have to be extra careful).
+* 유닉스 스타일 개행을 사용합니다. (\*BSD/Solaris/Linux/OSX 사용자는 기본값으로
+  커버됩니다만, Windows 사용자는 조심하실 필요가 있습니다.)
 
-* If you're using Git you might want to add the following configuration
-  setting to protect your project from Windows line endings creeping in:
+* Git을 사용하신다면, 다음 설정을 프로젝트에 추가해 윈도우 개행으로 부터
+  프로젝트를 보호할 수 있습니다.
 
   ```sh
   $ git config --global core.autocrlf true
   ```
 
-* Use spaces around operators, after commas, colons and semicolons.
-  Do not put spaces around matched pairs like brackets, parentheses, etc.
-  Whitespace might be (mostly) irrelevant to the Elixir runtime, but its proper
-  use is the key to writing easily readable code.
+* 연산자 주위와 쉼표, 콜론, 세미콜론의 뒤에 공백을 넣으세요.
+  중괄호나 대괄호같은 매치된 쌍주변에 공백을 넣지 않습니다.
+  공백은 (대부분의 경우) Elixir 실행시에 문제되지 않지만, 읽을 수 있는 코드를
+  작성하는데 중요하기에 권장됩니다.
 
   ```elixir
   sum = 1 + 2
@@ -96,8 +99,7 @@ If you're looking for other projects to contribute to please see the
   Enum.map(["one", <<"two">>, "three"], fn num -> IO.puts num end)
   ```
 
-* Use empty lines between `def`s and to break up a function into logical
-  paragraphs.
+* `def`사이에 빈줄을 넣어 함수의 끝을 논리적인 단락으로 만드세요.
 
   ```elixir
   def some_function(some_data) do
@@ -121,7 +123,7 @@ If you're looking for other projects to contribute to please see the
   end
   ```
 
-* ...but run single-line `def`s that match for the same function together.
+* ...하지만 같은 함수의 한 줄 `def`는 붙여씁니다.
 
   ```elixir
   def some_function(nil), do: {:err, "No Value"}
@@ -131,32 +133,31 @@ If you're looking for other projects to contribute to please see the
   end
   ```
 
-* If you use the `do:` syntax with functions and the line that makes up the
-  function body is long, put the `do:` on a new line indented one level more
-  than the previous line.
+* 함수 내용이 길어지는 곳에서 `do:` 구문을 사용한다면, 개행 한 후에
+  들여쓰기를 한 번 더 하고 `do:`를 넣으세요.
 
 ```elixir
 def some_function(args),
   do: Enum.map(args, fn(arg) -> arg <> " is on a very long line!" end)
 ```
 
-When you use the convention above and you have more than one function clause
-using the `do:` syntax, put the `do:` on a new line for each function clause:
+한 개이상의 함수 클로져에 `do:` 구문을 사용하시고 위에 있는 관습을 사용하시려면,
+각 함수 클로져 마다 개행을 한 다음 `do:`를 넣으세요.
 
 ```elixir
-# not preferred
+# 권장하지 않음
 def some_function([]), do: :empty
 def some_function(_),
   do: :very_long_line_here
 
-# preferred
+# 권장함
 def some_function([]),
   do: :empty
 def some_function(_),
   do: :very_long_line_here
 ```
 
-* If you have more than one multi-line `def`s do not use single-line `def`s.
+* 한 개 이상 여러 줄 `def`가 있다면 한 줄 `def`를 사용하지 마세요.
 
   ```elixir
   def some_function(nil) do
@@ -176,109 +177,108 @@ def some_function(_),
   end
   ```
 
-* Use the pipeline operator (`|>`) to chain functions together.
+* 함수를 연결할 때 파이프라인 연산자(`|>`)를 사용하세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   String.strip(String.downcase(some_string))
 
-  # preferred
+  # 권장함
   some_string |> String.downcase |> String.strip
 
-  # Multiline pipelines are not further indented
+  # 여러줄 파이프라인의 경우 더 들여쓰기 하지 않음
   some_string
   |> String.downcase
   |> String.strip
 
-  # Multiline pipelines on the right side of a pattern match
-  # should be indented on a newline
+  # 패턴 매칭의 오른 쪽 편의 여러줄 파이프라인은 반드시 새줄에 맞춰 개행 함
   sanitized_string =
     some_string
     |> String.downcase
     |> String.strip
   ```
 
-  While this is the preferred method, take into account that copy-pasting
-  multiline pipelines into IEx might result in a syntax error, as IEx will
-  evaluate the first line without realizing that the next line has a pipeline.
+  메서드에서는 이 방법이 권장되지만, 여러 줄 파이프라인을 IEx로 복사
+  붙여놓기하면 문법 에러가 되는 것에 주의하세요. IEx는 다음 줄에 파이프라인이
+  있다는 걸 눈치채지 못한 체 첫 줄을 평가합니다.
 
-* Use _bare_ variables in the first part of a function chain.
+* 함수 체인의 시작은 _그냥_ 변수로 하세요.
 
   ```elixir
-  # THE WORST!
-  # This actually parses as String.strip("nope" |> String.downcase).
+  # 최악!
+  # 실제로는 String.strip("nope" |> String.downcase)로 해석됨
   String.strip "nope" |> String.downcase
 
-  # not preferred
+  # 권장하지 않음
   String.strip(some_string) |> String.downcase |> String.codepoints
 
-  # preferred
+  # 권장함
   some_string |> String.strip |> String.downcase |> String.codepoints
   ```
 
-* Avoid trailing whitespace.
+* 줄 끝의 공백은 피하세요.
 
 
 ### Syntax
 
-* Use parentheses when you have arguments, no parentheses when you don't.
+* 인자가 있을 때 괄호를 사용하고, 인자가 없다면 괄호를 사용하지 마세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   def some_function arg1, arg2 do
-    # body omitted
+    # 내용 생략
   end
 
   def some_function() do
-    # body omitted
+    # 내용 생략
   end
 
-  # preferred
+  # 권장함
   def some_function(arg1, arg2) do
-    # body omitted
+    # 내용 생략
   end
 
   def some_function do
-    # body omitted
+    # 내용 생략
   end
   ```
 
-* Never use `do:` for multi-line `if/unless`.
+* 여러 줄 `if/unless`에 `do:`를 사용하지 마세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   if some_condition, do:
-    # a line of code
-    # another line of code
-    # note no end in this block
+    # 코드 한줄
+    # 코드 한줄 더
+    # 주의: 이 블록에서 끝나지 않음
 
-  # preferred
+  # 권장함
   if some_condition do
-    # some
-    # lines
-    # of code
+    # 여러
+    # 줄
+    # 코드
   end
   ```
 
-* Use `do:` for single line `if/unless` statements.
+* 한 줄 `if/unless` 구문에 `do:`를 사용하세요.
 
   ```elixir
-  # preferred
-  if some_condition, do: # some_stuff
+  # 권장함
+  if some_condition, do: # 어떤 코드
   ```
 
-* Never use `unless` with `else`.
-  Rewrite these with the positive case first.
+* `unless`와 `else`를 같이 쓰지 마세요.
+  긍적적인 경우가 먼저 오게 다시 작성 하세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   unless success? do
     IO.puts 'failure'
   else
     IO.puts 'success'
   end
 
-  # preferred
+  # 권장함
   if success? do
     IO.puts 'success'
   else
@@ -286,7 +286,7 @@ def some_function(_),
   end
   ```
 
-* Always use `true` as the last condition of a `cond` statement.
+* 항상 `cond` 구문의 마지막 조건으로 `true`를 사용하세요.
 
   ```elixir
   cond do
@@ -299,85 +299,84 @@ def some_function(_),
   end
   ```
 
-* Never put a space between a function name and the opening parenthesis.
+* 함수 이름과 괄호의 시작 사이에 공백을 넣지 마세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   f (3 + 2) + 1
 
-  # preferred
+  # 권장함
   f(3 + 2) + 1
   ```
 
-* Use parentheses in function calls, especially inside a pipeline.
+* 함수 호출에 괄호를 사용하세요. 특히 파이프라인의 안쪽에서는 더 필요합니다.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   f 3
 
-  # preferred
+  # 권장함
   f(3)
 
-  # not preferred and parses as rem(2, (3 |> g)), which is not what you want.
+  # 권장하지 않고 아마 원하지 않을 rem(2, (3 |> g))로 해석됨
   2 |> rem 3 |> g
 
-  # preferred
+  # 권장함
   2 |> rem(3) |> g
   ```
 
-* Omit parentheses in macro calls when a do block is passed.
+* 메크로에서 do 블럭이 넘겨진 경우 괄호를 생략하세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   quote(do
     foo
   end)
 
-  # preferred
+  # 권장함
   quote do
     foo
   end
   ```
 
-* Optionally omit parentheses in function calls (outside a pipeline) when the
-  last argument is a function expression.
+* 파이프라인의 밖에서는 마지막 인자가 함수라면 선택적으로 함수 호출에 괄호를
+  생략 하세요.
 
   ```elixir
-  # preferred
+  # 권장함
   Enum.reduce(1..10, 0, fn x, acc ->
     x + acc
   end)
 
-  # also preferred
+  # 역시 권장함
   Enum.reduce 1..10, 0, fn x, acc ->
     x + acc
   end
   ```
 
-* Use parentheses for calls to functions with zero arity, so they can be
-  distinguished from variables.
+* 인자 갯 수가 0인 함수를 호출할 경우 괄호를 사용해 변수와 구분하세요.
 
   ```elixir
   defp do_stuff, do: ...
 
-  # not preferred
+  # 권장하지 않음
   def my_func do
-    do_stuff # is this a variable or a function call
+    do_stuff # 변수일 수도 함수 호출일 수도 있음
   end
 
-  # preferred
+  # 권장함
   def my_func do
-    do_stuff() # this is clearly a function call
+    do_stuff() # 명백하게 함수 호출
   end
   ```
 
 
 ### Naming
 
-* Use `snake_case` for atoms, functions and variables.
+* 에텀, 함수, 변수에 `snake_case`를 사용하세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   :"some atom"
   :SomeAtom
   :someAtom
@@ -389,10 +388,10 @@ def some_function(_),
   end
 
   def SomeFunction do
-   ...
+    ...
   end
 
-  # preferred
+  # 권장함
   :some_atom
 
   some_var = 5
@@ -402,10 +401,11 @@ def some_function(_),
   end
   ```
 
-* Use `CamelCase` for modules (keep acronyms like HTTP, RFC, XML uppercase).
+* 모듈에 `CamelCase`를 사용하세요. (HTTP, RFC, XML 같은 약어는 대문자로
+  유지합니다.)
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   defmodule Somemodule do
     ...
   end
@@ -418,7 +418,7 @@ def some_function(_),
     ...
   end
 
-  # preferred
+  # 권장함
   defmodule SomeModule do
     ...
   end
@@ -428,10 +428,11 @@ def some_function(_),
   end
   ```
 
-* The names of predicate macros (compile-time generated functions that return a
-  boolean value) _that can be used within guards_ should be prefixed with `is_`.
-  For a list of allowed expressions, see
-  [Expressions in Guard Clauses](http://elixir-lang.org/getting-started/case-cond-and-if.html#expressions-in-guard-clauses).
+* _가드 안에서 사용할 수 있는_ 선언적(predicate) 메크로(부울값을 반환하는 컴파일
+  시 생성되는 함수)의 이름은 전치사로 `is_`로 시작해야 합니다.
+  허용된 표현식의 목록은
+  [Expressions in Guard Clauses](http://elixir-lang.org/getting-started/case-cond-and-if.html#expressions-in-guard-clauses)를
+  확인하세요.
 
   ```elixir
   defmacro is_cool(var) do
@@ -439,22 +440,21 @@ def some_function(_),
   end
   ```
 
-* The names of predicate functions _that cannot be used within guards_ should
-  have a trailing question mark (`?`) rather than the `is_` (or similar) prefix.
+* _가드 안에서 사용할 수 없는_ 선언적 함수의 이름은 `is_`나 그와 비슷한 전치사
+  대신 끝에 물음표(`?`)를 붙여야 합니다.
 
   ```elixir
   def cool?(var) do
-    # Complex check if var is cool not possible in a pure function.
+    # 순수 함수 안에서 사용할 수 없는 값이 cool인지 확인하는 복잡한 코드
   end
   ```
 
-* Private functions with the same name as public functions should start with
-  `do_`.
+* 같은 이름의 public 함수가 있는 private 함수는 `do_`로 시작해야 합니다.
 
   ```elixir
   def sum(list), do: do_sum(list, 0)
 
-  # private functions
+  # private 함수
   defp do_sum([], total), do: total
   defp do_sum([head|tail], total), do: do_sum(tail, head + total)
   ```
@@ -462,14 +462,14 @@ def some_function(_),
 
 ### Comments
 
-* Write self-documenting code and ignore the rest of this section.
-  Seriously!
+* 스스로 설명되는 코드를 적고 이 절을 무시하세요.
+  진지합니다!
 
-* Use one space between the leading `#` character of the comment and the text of
-  the comment.
+* 주석의 앞의 `#` 문자와 주석의 내용 사이에 공백 하나를 사용합니다.
 
-* Comments longer than a word are capitalized and use punctuation.
-  Use [one space](http://en.wikipedia.org/wiki/Sentence_spacing) after periods.
+* 한 단어보다 긴 주석은 대문자로 시작하고 문장 부호를 사용합니다.
+  문단의 뒤에 [한 개의 공백](http://en.wikipedia.org/wiki/Sentence_spacing)을
+  사용합니다.
 
   ```elixir
   # not preferred
@@ -478,69 +478,64 @@ def some_function(_),
 
 #### Comment Annotations
 
-* Annotations should usually be written on the line immediately above the
-  relevant code.
+* 어노테이션은 보통 해당 코드의 바로 위에 적어야 합니다.
 
-* The annotation keyword is followed by a colon and a space, then a note
-  describing the problem.
+* 어노테이션 키워드뒤에는 콜론과 한개의 공백을 넣고, 문제점을 적습니다.
 
-* If multiple lines are required to describe the problem, subsequent lines
-  should be indented two spaces after the `#`.
+* 문제를 설명하는데 여러 줄이 필요하면, 첫 줄을 재외하고 `#` 뒤에 두개의
+  공백으로 들여쓰기를 합니다.
 
-* In cases where the problem is so obvious that any documentation would be
-  redundant, annotations may be left at the end of the offending line with no
-  note.
-  This usage should be the exception and not the rule.
+* 문제가 너무 뻔해 문서화가 필요 없을 때에는, 어노테이션을 해당 줄의 뒤에 달고
+  내용을 생략합니다.
+  이 사용법은 예외이며 룰의 일부가 아닙니다.
 
-* Use `TODO` to note missing features or functionality that should be added at a
-  later date.
+* `TODO`는 나중에 추가해야 하는 없는 기능을 설명할 때 사용합니다.
 
-* Use `FIXME` to note broken code that needs to be fixed.
+* `FIXME`는 고쳐야하는 망가진 코드를 설명할 때 사용합니다.
 
-* Use `OPTIMIZE` to note slow or inefficient code that may cause performance
-  problems.
+* `OPTIMIZE`는 성능 문제가 될 수 있는 느리거나 비효율적인 코드를 설명할 때
+  사용합니다.
 
-* Use `HACK` to note code smells where questionable coding practices were used
-  and should be refactored away.
+* `HACK`은 리팩터링해야 할 의문이 드는 코딩 관습이 사용된 코드 스멜을 설명할 때
+  사용합니다.
 
-* Use `REVIEW` to note anything that should be looked at to confirm it is
-  working as intended.
-  For example: `REVIEW: Are we sure this is how the client does X currently?`
+* `REVIEW`는 의도대로 동작하는지 확인이 필요할 때 사용합니다.
+  예: `REVIEW: 지금 이걸로 클라이언트가 X를 올바르게 수행할 수 있나요?`
 
-* Use other custom annotation keywords if it feels appropriate, but be sure to
-  document them in your project's `README` or similar.
+* 필요하다고 생각할 때 다른 사용자 정의 어노테이션 키워드를 사용하세요.
+  사용하셨으면 프로젝트의 `README`같은 곳에 문서화하세요.
 
 
 ### Modules
 
-* Use one module per file unless the module is only used internally by another
-  module (such as a test).
+* 테스트 처럼 모듈이 다른 모듈안에서만 사용되지 않는 이상 파일당 한 모듈만
+  사용하세요.
 
-* Use underscored file names for `CamelCase` module names.
+* `CamelCase` 모듈 이름에 대해 snake_case 파일 이름을 사용하세요.
 
   ```elixir
-  # file is called some_module.ex
+  # some_module.ex 파일
 
   defmodule SomeModule do
   end
   ```
 
-* Represent each level of nesting within a module name as a directory.
+* 모듈 이름 중첩의 각 단계로 디렉토리를 표현하세요.
 
   ```elixir
-  # file is called parser/core/xml_parser.ex
+  # parser/core/xml_parser.ex 파일
 
   defmodule Parser.Core.XMLParser do
   end
   ```
 
-* No newline after defmodule.
+* defmodule 뒤에 개행을 하지 않습니다.
 
-* No newline before first function def.
+* 첫번째 함수 def 앞에 개행을 하지 않습니다.
 
-* Newline after "module-level-code-blocks".
+* "module-level-code-blocks" 뒤에 개행 하세요.
 
-* List module attributes and directives in the following order:
+* 모듈 속성과 디렉티브는 다음 순서로 나열하세요.
 
     1. `@moduledoc`
     1. `@behaviour`
@@ -551,8 +546,8 @@ def some_function(_),
     1. `@type`
     1. `@module_attribute`
 
-  And, if you're really a perfectionist, sub-sort by alphabetical order. Here's
-  an overall example of how you should order things in your modules:
+  그리고 완벽주의자라면 각각 알파벳순으로 정렬하세요. 여기에 모듈안을 어떻게
+  정렬해야 하는지 전반적으로 보여주는 예제가 있습니다.
 
   ```elixir
   defmodule MyModule do
@@ -581,16 +576,15 @@ def some_function(_),
 
 ### Documentation
 
-Documentation in Elixir (when read either in `iex` with `h` or generated with
-[ExDoc](https://github.com/elixir-lang/ex_doc)) uses the [Module Attributes](\
-http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
-`@moduledoc` and `@doc`.
+Elixir에서 문서화는(`iex`에서 `h`로 읽거나
+[ExDoc](https://github.com/elixir-lang/ex_doc)으로 생성할 때)
+[Module Attributes](http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
+`@moduledoc`과 `@doc`을 사용합니다.
 
-* Always include a `@moduledoc` attribute in the line right after `defmodule` in
-  your module.
+* 항상 `@moduledoc` 속성을 모듈안의 `defmodule` 다음 줄에 넣으세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
 
   defmodule SomeModule do
 
@@ -608,7 +602,7 @@ http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
     ...
   end
 
-  # preferred
+  # 권장함
 
   defmodule SomeModule do
     @moduledoc """
@@ -618,7 +612,7 @@ http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
   end
   ```
 
-* Use `@moduledoc false` if you do not intend on documenting the module.
+* 모듈을 문서화 할 생각이 없다면 `@moduledoc false`을 사용하세요.
 
   ```elixir
   defmodule SomeModule do
@@ -627,10 +621,10 @@ http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
   end
   ```
 
-* Separate code after the `@moduledoc` with a new line.
+* `@moduledoc` 다음의 코드는 개행을 한 줄 넣어 구분하세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
 
   defmodule SomeModule do
     @moduledoc """
@@ -639,7 +633,7 @@ http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
     use AnotherModule
   end
 
-  # preferred
+  # 권장함
   defmodule SomeModule do
     @moduledoc """
     About the module
@@ -649,10 +643,10 @@ http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
   end
   ```
 
-* Use heredocs with markdown for documentation.
+* 문서화에 마크다운을 사용한 히어독을 사용하세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
 
   defmodule SomeModule do
     @moduledoc "About the module"
@@ -668,7 +662,7 @@ http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
     """
   end
 
-  # preferred
+  # 권장함
   defmodule SomeModule do
     @moduledoc """
     About the module
@@ -684,14 +678,13 @@ http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
 
 ### Typespecs
 
-Typespecs are notation for declaring types and specifications, for
-documentation or for the static analysis tool Dialyzer.
+타입 스팩은 문서화나 정적 분석기 Dialyzer를 위한 타입과 스팩을 정의하기 위한
+표기법입니다.
 
-Custom types should be defined at the top of the module with the other
-directives (see [Modules](#modules)).
+사용자 정의 타입은 다른 디렉티브와 함께 모듈의 제일 위에 정의되어야 합니다.
+([Modules](#modules)를 확인하세요.)
 
-* Place `@typedoc` and `@type` definitions together, and separate each
-  pair with a blank line.
+* `@typedoc`과 `@type` 정의를 함꼐 두고 각 쌍을 빈 줄로 구분하세요.
 
   ```elixir
   defmodule SomeModule do
@@ -707,27 +700,26 @@ directives (see [Modules](#modules)).
   end
   ```
 
-* If a union type is too long to fit on a single line, add a newline
-  and indent with spaces to keep the return types aligned.
+* 유니온 타입이 한줄에 들어가기에는 너무 길다면, 개행을 하고 타입에 맞춰
+  들여쓰기를 합니다.
 
   ```elixir
-  # not preferred - no indentation
+  # 권장하지 않음 - 들여쓰기 없음
   @type long_union_type :: some_type | another_type | some_other_type
   | a_final_type
 
-  # preferred
+  # 권장함
   @type long_union_type :: some_type | another_type | some_other_type
                          | a_final_type
 
-  # also preferred - one return type per line
+  # 역시 권장함 - 타입 당 한번씩 개행
   @type long_union_type :: some_type
                          | another_type
                          | some_other_type
                          | a_final_type
   ```
 
-* Place specifications right before the function definition,
-  separated by a newline.
+* 스팩은 함수 선언의 직전에 개행으로 구분해 두세요.
 
   ```elixir
   @spec some_function(term) :: result
@@ -739,74 +731,73 @@ directives (see [Modules](#modules)).
 
 ### Exceptions
 
-* Make exception names end with a trailing `Error`.
+* 예외 이름 뒤에 `Error`를 붙이세요.
 
-    ```elixir
-    # not preferred
-    defmodule BadHTTPCode do
-      defexception [:message]
-    end
+  ```elixir
+  # 권장하지 않음
+  defmodule BadHTTPCode do
+    defexception [:message]
+  end
 
-    defmodule BadHTTPCodeException do
-      defexception [:message]
-    end
+  defmodule BadHTTPCodeException do
+    defexception [:message]
+  end
 
-    # preferred
-    defmodule BadHTTPCodeError do
-      defexception [:message]
-    end
-    ```
+  # 권장됨
+  defmodule BadHTTPCodeError do
+    defexception [:message]
+  end
+  ```
 
-* Use lowercase error messages when raising exceptions, with no trailing
-  punctuation.
+* 예외를 발생 시킬 때는 뒤에 문장 부호를 붙이지 않은 소문자로 시작하는 에러
+  메세지를 사용하세요.
 
-    ```elixir
-    # not preferred
-    raise ArgumentError, "This is not valid."
+  ```elixir
+  # 권장하지 않음
+  raise ArgumentError, "This is not valid."
 
-    # preferred
-    raise ArgumentError, "this is not valid"
-    ```
+  # 권장됨
+  raise ArgumentError, "this is not valid"
+  ```
 
 
 ### Collections
 
-_No guidelines for collections have been added yet._
+_콜랙션에 관한 가이드라인은 아직 추가되지 않았습니다._
 
 
 ### Strings
 
-* Match strings using the string concatenator rather than binary patterns:
+* 문자열은 바이너리 패턴 보다 문자열 연결 연산자를 이용해 매칭하세요.
 
   ```elixir
-  # not preferred
+  # 권장하지 않음
   <<"my"::utf8, _rest>> = "my string"
 
-  # preferred
+  # 권장됨
   "my" <> _rest = "my string"
   ```
 
 
 ### Regular Expressions
 
-_No guidelines for regular expressions have been added yet._
+_정규 표현식에 관한 가이드라인은 아직 추가되지 않았습니다._
 
 
 ### Metaprogramming
 
-* Avoid needless metaprogramming.
+* 불필요한 메타프로그래밍을 피하세요.
 
 
 ### Suggested Alternatives
 
-Suggested alternatives are styles that haven't been seen much in the community
-yet but might provide some value.
+대안 제시는 아직 커뮤니티에서 많이 보진 못했지만, 가치가 있을 겁니다.
 
 #### Cond
 
-* An atom can be used as a catch-all expression in a `cond` as it evaluates
-  to a truthy value.
-  Suggested atoms are `:else` or `:otherwise`
+* `cond` 안에서 에텀은 트루시(truthy) 값과 동일 하기 때문에 다 잡는
+  표현식으로 사용할 수 있습니다.
+  추천하는 에텀은 `:else`나 `:otherwise`입니다.
 
   ```elixir
   cond do
@@ -818,7 +809,7 @@ yet but might provide some value.
       "OK"
   end
 
-  # is the same as
+  # 이것과 동일
   cond do
     1 + 2 == 5 ->
       "Nope"
@@ -832,7 +823,7 @@ yet but might provide some value.
 
 ### Tools
 
-_No tools have been added yet._
+_아직 툴은 추가되지 않았습니다._
 
 
 ## Getting Involved
