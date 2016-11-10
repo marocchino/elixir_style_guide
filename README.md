@@ -1,7 +1,7 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
 **역주**:
-[029d78a](https://github.com/levionessa/elixir_style_guide/blob/029d78a6f963e780f9b470da81dc7284a5ceb5ff/README.md)을
+[f5a6852](https://github.com/levionessa/elixir_style_guide/blob/f5a6852d2d17386ec5b00c31069ed9604279372b/README.md)을
 기준으로 번역했습니다.
 
 ### 목차
@@ -201,6 +201,16 @@ def some_function(_),
   메서드에서는 이 방법이 권장되지만, 여러 줄 파이프라인을 IEx로 복사
   붙여넣기하면 문법 에러가 되는 것에 주의하세요. IEx는 다음 줄에 파이프라인이
   있다는 걸 눈치채지 못한 채 첫 줄을 평가합니다.
+
+* 파이프 연산자를 한번만 쓰는 것을 피하세요.
+
+  ```elixir
+  # 권장하지 않음
+  some_string |> String.downcase
+
+  # 권장함
+  String.downcase(some_string)
+  ```
 
 * 함수 체인의 시작은 _그냥_ 변수로 하세요.
 
