@@ -1,7 +1,7 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
 **역주**:
-[f5a6852](https://github.com/levionessa/elixir_style_guide/blob/f5a6852d2d17386ec5b00c31069ed9604279372b/README.md)을
+[c1ab80f](https://github.com/levionessa/elixir_style_guide/blob/c1ab80fcddf1f65038b65738c4077065e13d3e5e/README.md)을
 기준으로 번역했습니다.
 
 ### 목차
@@ -16,6 +16,7 @@
     * [Modules](#modules)
     * [Documentation](#documentation)
     * [Typespecs](#typespecs)
+    * [Structs](#structs)
     * [Exceptions](#exceptions)
     * _Collections_
     * [Strings](#strings)
@@ -553,6 +554,7 @@ def some_function(_),
     1. `import`
     1. `alias`
     1. `require`
+    1. `defstruct`
     1. `@type`
     1. `@module_attribute`
 
@@ -573,6 +575,8 @@ def some_function(_),
     alias My.Long.Module.Name
     alias My.Other.Module.Name
     require Integer
+
+    defstruct name: nil, params: []
 
     @type params :: [{binary, binary}]
 
@@ -729,6 +733,18 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
                          | a_final_type
   ```
 
+* 모듈의 메인 타입 이름은 `t`로 합니다. 예를 들어, 구조체를 위한 타입 사양은
+  이런식으로 할 수 있습니다.
+
+  ```elixir
+  defstruct name: nil, params: []
+
+  @type t :: %__MODULE__{
+    name: String.t,
+    params: Keyword.t
+  }
+  ```
+
 * 스펙은 함수 선언의 직전에 개행으로 구분해 두세요.
 
   ```elixir
@@ -736,6 +752,19 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   def some_function(some_data) do
     {:ok, some_data}
   end
+  ```
+
+
+### Structs
+
+* 모든 구조체 필드의 기본값이 nil이라면 애텀의 리스트로 필드를 넣습니다.
+
+  ```elixir
+  # 권장하지 않음
+  defstruct name: nil, params: nil
+
+  # 권장함
+  defstruct [:name, :params]
   ```
 
 
