@@ -1,10 +1,10 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
 **역주**:
-[c1ab80f](https://github.com/levionessa/elixir_style_guide/blob/c1ab80fcddf1f65038b65738c4077065e13d3e5e/README.md)을
+[841b562](https://github.com/christopheradams/elixir_style_guide/blob/841b5625518293a77708295b8d1e7e12b83d0239/README.md)을
 기준으로 번역했습니다.
 
-### 목차
+## 목차
 
 * __[Prelude](#prelude)__
 * __[The Guide](#the-guide)__
@@ -23,7 +23,7 @@
     * _Regular Expressions_
     * [Metaprogramming](#metaprogramming)
     * [Suggested Alternatives](#suggested-alternatives)
-    * _Tools_
+    * [Tools](#tools)
 * __[Getting Involved](#getting-involved)__
     * [Contributing](#contributing)
     * [Spread the Word](#spread-the-word)
@@ -35,17 +35,14 @@
 ## Prelude
 
 > Liquid architecture. It's like jazz — you improvise, you work together, you
-> play off each other, you make something, they make something. <br/>
+> play off each other, you make something, they make something.
+>
 > —Frank Gehry
 
 스타일은 중요합니다.
 [Elixir]는 많은 스타일을 가지고 있지만, 다른 언어와 마찬가지로 무시할 수
 있습니다.
 스타일을 무시하지 마세요.
-
-**주의**: PR을 던지고 그게 머지 되면 자동으로 협업자에 추가됩니다. 추가를 원하지
-않으시면 제출할 때 말씀해주세요.
-PR이 머지 되신 분은 협업자에 추가됩니다.
 
 
 ## The Guide
@@ -86,7 +83,7 @@ PR이 머지 되신 분은 협업자에 추가됩니다.
   프로젝트를 보호할 수 있습니다.
 
   ```sh
-  $ git config --global core.autocrlf true
+  git config --global core.autocrlf true
   ```
 
 * 연산자 주위와 쉼표, 콜론, 세미콜론의 뒤에 공백을 넣으세요.
@@ -137,26 +134,26 @@ PR이 머지 되신 분은 협업자에 추가됩니다.
 * 함수 내용이 길어지는 곳에서 `do:` 구문을 사용한다면, 개행 한 후에
   들여 쓰기를 한 번 더 하고 `do:`를 넣으세요.
 
-```elixir
-def some_function(args),
-  do: Enum.map(args, fn(arg) -> arg <> " is on a very long line!" end)
-```
+  ```elixir
+  def some_function(args),
+    do: Enum.map(args, fn(arg) -> arg <> " is on a very long line!" end)
+  ```
 
-한 개 이상의 함수 절에 `do:` 구문을 사용하실 때 위에 있는 관습을 사용하시려면,
-각 함수 절마다 개행을 한 다음 `do:`를 넣으세요.
+  한 개 이상의 함수 절에 `do:` 구문을 사용하실 때 위에 있는 관습을 사용하시려면,
+  각 함수 절마다 개행을 한 다음 `do:`를 넣으세요.
 
-```elixir
-# 권장하지 않음
-def some_function([]), do: :empty
-def some_function(_),
-  do: :very_long_line_here
+  ```elixir
+  # 권장하지 않음
+  def some_function([]), do: :empty
+  def some_function(_),
+    do: :very_long_line_here
 
-# 권장함
-def some_function([]),
-  do: :empty
-def some_function(_),
-  do: :very_long_line_here
-```
+  # 권장함
+  def some_function([]),
+    do: :empty
+  def some_function(_),
+    do: :very_long_line_here
+  ```
 
 * 여러 줄을 사용하는 `def`가 한 개 이상 있다면 한 줄 `def`를 사용하지 마세요.
 
@@ -232,7 +229,7 @@ def some_function(_),
 
 ### Syntax
 
-* 인자가 있을 때 괄호를 사용하고, 인자가 없다면 괄호를 사용하지 마세요.
+* `def`에 인자가 있을 때 괄호를 사용하고, 인자가 없다면 괄호를 사용하지 마세요.
 
   ```elixir
   # 권장하지 않음
@@ -587,6 +584,29 @@ def some_function(_),
   end
   ```
 
+* 모듈에서 자신을 참조할 때 `__MODULE__` 수도 변수를 사용하세요. 이렇게하면
+  모듈 이름이 바뀌었을 때 자신을 참조한 부분의 갱신을 피할 수 있습니다.
+
+  ```elixir
+  defmodule SomeProject.SomeModule do
+    defstruct [:name]
+
+    def name(%__MODULE__{name: name}), do: name
+  end
+  ```
+
+* 모듈의 자기 참조에 읽기 편한 이름을 사용하고 싶다면, 알리아스를 사용하세요.
+
+  ```elixir
+  defmodule SomeProject.SomeModule do
+    alias __MODULE__, as: SomeModule
+
+    defstruct [:name]
+
+    def name(%SomeModule{name: name}), do: name
+  end
+  ```
+
 
 ### Documentation
 
@@ -767,6 +787,13 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   defstruct [:name, :params]
   ```
 
+* 구조체 선언이 한 줄을 넘어 갈 때, 들여쓰기는 첫 번째 키에 맞추세요.
+
+  ```elixir
+  defstruct foo: "test", bar: true, baz: false,
+            qux: false, quux: nil
+  ```
+
 
 ### Exceptions
 
@@ -863,7 +890,8 @@ _정규 표현식에 관한 가이드라인은 아직 추가되지 않았습니�
 
 ### Tools
 
-_아직 툴은 추가되지 않았습니다._
+Refer to [Awesome Elixir][Code Analysis] for libraies and tools that can help
+with code analysis and style linting.
 
 
 ## Getting Involved
@@ -876,13 +904,16 @@ best practices in Elixir.
 Feel free to open tickets or send pull requests with improvements.
 Thanks in advance for your help!
 
+Check the [contributing guidelines](CONTRIBUTING.md)
+and [code of conduct](CODE_OF_CONDUCT.md) for more information.
+
 
 ### Spread the Word
 
 A community style guide is meaningless without the community's support. Please
-tweet, [star](https://github.com/niftyn8/elixir_style_guide/stargazers), and let
-any Elixir programmer know about [this guide][Elixir Style Guide] so they can
-contribute.
+tweet, [star](https://github.com/levionessa/elixir_style_guide/stargazers), and
+let any Elixir programmer know about [this guide][Elixir Style Guide] so they
+can contribute.
 
 
 ## Copying
@@ -903,12 +934,13 @@ A lot of things were applicable to Elixir and allowed us to get _some_ document
 out quicker to start the conversation.
 
 Here's the
-[list of people who has kindly contributed](https://github.com/niftyn8/elixir_style_guide/graphs/contributors)
+[list of people who has kindly contributed](https://github.com/levionessa/elixir_style_guide/graphs/contributors)
 to this project.
 
 <!-- Links -->
-[Elixir Style Guide]: https://github.com/niftyn8/elixir_style_guide
+[Elixir Style Guide]: https://github.com/levionessa/elixir_style_guide
 [Elixir]: http://elixir-lang.org
 [Hex]: https://hex.pm/packages
 [license]: http://creativecommons.org/licenses/by/3.0/deed.en_US
 [Ruby community style guide]: https://github.com/bbatsov/ruby-style-guide
+[Code Analysis]: https://github.com/h4cc/awesome-elixir#code-analysis
