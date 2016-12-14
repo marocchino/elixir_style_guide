@@ -117,7 +117,7 @@
   ```
 
 * <a name="def-spacing"></a>
-* `def`사이에 빈 줄을 넣어 함수의 끝을 논리적인 단락으로 만드세요.
+  `def`사이에 빈 줄을 넣어 함수의 끝을 논리적인 단락으로 만드세요.
   <sup>[[link](#def-spacing)]</sup>
 
   ```elixir
