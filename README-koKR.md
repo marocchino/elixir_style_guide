@@ -1,37 +1,37 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
 **역주**:
-
-[e439b77](https://github.com/christopheradams/elixir_style_guide/blob/e439b77f559bee6ccae02fe930b7880edc8460fd/README.md)을
+[4abc03f](https://github.com/christopheradams/elixir_style_guide/blob/4abc03f397cc5266244ca26fce371287ff39518d/README.md)을
 기준으로 번역했습니다.
 
 ## 목차
 
 * __[Prelude](#prelude)__
 * __[The Guide](#the-guide)__
-    * [Source Code Layout](#source-code-layout)
-    * [Syntax](#syntax)
-    * [Naming](#naming)
-    * [Comments](#comments)
-        * [Comment Annotations](#comment-annotations)
-    * [Modules](#modules)
-    * [Documentation](#documentation)
-    * [Typespecs](#typespecs)
-    * [Structs](#structs)
-    * [Exceptions](#exceptions)
-    * _Collections_
-    * [Strings](#strings)
-    * _Regular Expressions_
-    * [Metaprogramming](#metaprogramming)
-    * [Suggested Alternatives](#suggested-alternatives)
-    * [Tools](#tools)
+  * [Source Code Layout](#source-code-layout)
+  * [Syntax](#syntax)
+  * [Naming](#naming)
+  * [Comments](#comments)
+    * [Comment Annotations](#comment-annotations)
+  * [Modules](#modules)
+  * [Documentation](#documentation)
+  * [Typespecs](#typespecs)
+  * [Structs](#structs)
+  * [Exceptions](#exceptions)
+  * _Collections_
+  * [Strings](#strings)
+  * _Regular Expressions_
+  * [Metaprogramming](#metaprogramming)
+  * [Testing](#testing)
+  * [Suggested Alternatives](#suggested-alternatives)
+  * [Alternative Style Guides](#alternative-style-guides)
+  * [Tools](#tools)
 * __[Getting Involved](#getting-involved)__
-    * [Contributing](#contributing)
-    * [Spread the Word](#spread-the-word)
+  * [Contributing](#contributing)
+  * [Spread the Word](#spread-the-word)
 * __[Copying](#copying)__
-    * [License](#license)
-    * [Attribution](#attribution)
-
+  * [License](#license)
+  * [Attribution](#attribution)
 
 ## Prelude
 
@@ -45,7 +45,6 @@
 있습니다.
 스타일을 무시하지 마세요.
 
-
 ## The Guide
 
 여기에 [Elixir 프로그래밍 언어][Elixir]의 커뮤니티 스타일 가이드를 만들려고
@@ -57,13 +56,20 @@
 혹시 다른 프로젝트에 기여하고 싶으시면, [Hex 패키지 관리자 사이트][Hex]를
 참고하세요.
 
+<a name="translations"></a>
+Translations of the guide are available in the following languages:
+
+* [Japanese]
+* [Korean]
 
 ### Source Code Layout
 
 <!-- TODO: Add crafty quote here -->
 
-* 들여쓰기로 2개의 **공백**을 사용하세요.
+* <a name="spaces-indentation"></a>
+  들여쓰기로 2개의 **공백**을 사용하세요.
   하드 탭을 사용하지 않습니다.
+  <sup>[[link](#spaces-indentation)]</sup>
 
   ```elixir
   # 4 스페이스 - 권장하지 않음
@@ -77,28 +83,48 @@
   end
   ```
 
-* 유닉스 스타일 개행을 사용합니다. (\*BSD/Solaris/Linux/OSX 사용자는 기본값으로
+* <a name="line-endings"></a>
+  유닉스 스타일 개행을 사용합니다. (\*BSD/Solaris/Linux/OSX 사용자는 기본값으로
   커버됩니다만, Windows 사용자는 조심하실 필요가 있습니다.)
+  <sup>[[link](#line-endings)]</sup>
 
-* Git을 사용하신다면, 다음 설정을 프로젝트에 추가해 Windows 개행으로부터
+* <a name="autocrlf"></a>
+  Git을 사용하신다면, 다음 설정을 프로젝트에 추가해 Windows 개행으로부터
   프로젝트를 보호할 수 있습니다.
+  <sup>[[link](#autocrlf)]</sup>
 
   ```sh
   git config --global core.autocrlf true
   ```
 
-* 연산자 주위와 쉼표, 콜론, 세미콜론의 뒤에 공백을 넣으세요.
+* <a name="spaces"></a>
+  연산자 주위와 쉼표, 콜론, 세미콜론의 뒤에 공백을 넣으세요.
   중괄호나 대괄호같은 매치된 쌍 주변에는 공백을 넣지 않습니다.
   공백은 (대부분의 경우) Elixir 실행 시에 문제 되지 않지만, 읽을 수 있는 코드를
   작성하는데 중요하기에 권장됩니다.
+  <sup>[[link](#spaces)]</sup>
 
   ```elixir
   sum = 1 + 2
   {a, b} = {2, 3}
+  [first | rest] = [1, 2, 3]
   Enum.map(["one", <<"two">>, "three"], fn num -> IO.puts num end)
   ```
 
-* `def`사이에 빈 줄을 넣어 함수의 끝을 논리적인 단락으로 만드세요.
+* <a name="no-spaces"></a>
+  하나의 인자를 가지는 단어가 아닌 연산자 뒤에 스페이스를 사용하지 마세요.
+  레인지 연산자에도 사용하지 마세요.
+  <sup>[[link](#no-spaces)]</sup>
+
+  ```elixir
+  0 - 1 == -1
+  ^pinned = some_func()
+  5 in 1..10
+  ```
+
+* <a name="def-spacing"></a>
+  `def`사이에 빈 줄을 넣어 함수의 끝을 논리적인 단락으로 만드세요.
+  <sup>[[link](#def-spacing)]</sup>
 
   ```elixir
   def some_function(some_data) do
@@ -122,18 +148,22 @@
   end
   ```
 
-* ...하지만 같은 함수의 한 줄 `def`는 붙여 씁니다.
+* <a name="single-line-defs"></a>
+  ...하지만 같은 함수의 한 줄 `def`는 붙여 씁니다.
+  <sup>[[link](#single-line-defs)]</sup>
 
   ```elixir
   def some_function(nil), do: {:err, "No Value"}
   def some_function([]), do: :ok
-  def some_function([first|rest]) do
+  def some_function([first | rest]) do
     some_function(rest)
   end
   ```
 
-* 함수 내용이 길어지는 곳에서 `do:` 구문을 사용한다면, 개행 한 후에
+* <a name="long-dos"></a>
+  함수 내용이 길어지는 곳에서 `do:` 구문을 사용한다면, 개행 한 후에
   들여 쓰기를 한 번 더 하고 `do:`를 넣으세요.
+  <sup>[[link](#long-dos)]</sup>
 
   ```elixir
   def some_function(args),
@@ -156,7 +186,9 @@
     do: :very_long_line_here
   ```
 
-* 여러 줄을 사용하는 `def`가 한 개 이상 있다면 한 줄 `def`를 사용하지 마세요.
+* <a name="multiple-function-defs"></a>
+  여러 줄을 사용하는 `def`가 한 개 이상 있다면 한 줄 `def`를 사용하지 마세요.
+  <sup>[[link](#multiple-function-defs)]</sup>
 
   ```elixir
   def some_function(nil) do
@@ -167,16 +199,18 @@
     :ok
   end
 
-  def some_function([first|rest]) do
+  def some_function([first | rest]) do
     some_function(rest)
   end
 
-  def some_function([first|rest], opts) do
+  def some_function([first | rest], opts) do
     some_function(rest, opts)
   end
   ```
 
-* 함수를 연결할 때 파이프라인 연산자(`|>`)를 사용하세요.
+* <a name="pipe-operator"></a>
+  함수를 연결할 때 파이프라인 연산자(`|>`)를 사용하세요.
+  <sup>[[link](#pipe-operator)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -201,7 +235,9 @@
   붙여넣기하면 문법 에러가 되는 것에 주의하세요. IEx는 다음 줄에 파이프라인이
   있다는 걸 눈치채지 못한 채 첫 줄을 평가합니다.
 
-* 파이프 연산자를 한번만 쓰는 것을 피하세요.
+* <a name="avoid-single-pipelines"></a>
+  파이프 연산자를 한번만 쓰는 것을 피하세요.
+  <sup>[[link](#avoid-single-pipelines)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -211,7 +247,9 @@
   String.downcase(some_string)
   ```
 
-* 함수 체인의 시작은 _그냥_ 변수로 하세요.
+* <a name="bare-variables"></a>
+  함수 체인의 시작은 _그냥_ 변수로 하세요.
+  <sup>[[link](#bare-variables)]</sup>
 
   ```elixir
   # 최악!
@@ -225,12 +263,21 @@
   some_string |> String.strip |> String.downcase |> String.codepoints
   ```
 
-* 줄 끝의 공백은 피하세요.
+* <a name="trailing-whitespace"></a>
+  줄 끝의 공백은 피하세요.
+  <sup>[[link](#trailing-whitespace)]</sup>
+
+* <a name="newline-eof"></a>
+  파일의 끝에 개행을 넣으세요.
+  <sup>[[link](#newline-eof)]</sup>
+
 
 
 ### Syntax
 
-* `def`에 인자가 있을 때 괄호를 사용하고, 인자가 없다면 괄호를 사용하지 마세요.
+* <a name="parentheses"></a>
+  `def`에 인자가 있을 때 괄호를 사용하고, 인자가 없다면 괄호를 사용하지 마세요.
+  <sup>[[link](#parentheses)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -252,7 +299,9 @@
   end
   ```
 
-* 여러 줄 `if/unless`에 `do:`를 사용하지 마세요.
+* <a name="do-with-multi-line-if-unless"></a>
+  여러 줄 `if/unless`에 `do:`를 사용하지 마세요.
+  <sup>[[link](#do-with-multi-line-if-unless)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -269,15 +318,19 @@
   end
   ```
 
-* 한 줄 `if/unless` 구문에 `do:`를 사용하세요.
+* <a name="do-with-single-line-if-unless"></a>
+  한 줄 `if/unless` 구문에 `do:`를 사용하세요.
+  <sup>[[link](#do-with-single-line-if-unless)]</sup>
 
   ```elixir
   # 권장함
   if some_condition, do: # 어떤 코드
   ```
 
-* `unless`와 `else`를 같이 쓰지 마세요.
+* <a name="unless-with-else"></a>
+  `unless`와 `else`를 같이 쓰지 마세요.
   긍정적인 경우가 먼저 오게 다시 작성하세요.
+  <sup>[[link](#unless-with-else)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -295,7 +348,9 @@
   end
   ```
 
-* 항상 `cond` 구문의 마지막 조건으로 `true`를 사용하세요.
+* <a name="true-as-last-condition"></a>
+  항상 `cond` 구문의 마지막 조건으로 `true`를 사용하세요.
+  <sup>[[link](#true-as-last-condition)]</sup>
 
   ```elixir
   cond do
@@ -308,7 +363,9 @@
   end
   ```
 
-* 함수 이름과 괄호의 시작 사이에 공백을 넣지 마세요.
+* <a name="function-names-with-parentheses"></a>
+  함수 이름과 괄호의 시작 사이에 공백을 넣지 마세요.
+  <sup>[[link](#function-names-with-parentheses)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -318,7 +375,9 @@
   f(3 + 2) + 1
   ```
 
-* 함수 호출에 괄호를 사용하세요. 특히 파이프라인의 안쪽에서는 더 필요합니다.
+* <a name="function-calls-and-parentheses"></a>
+  함수 호출에 괄호를 사용하세요. 특히 파이프라인의 안쪽에서는 더 필요합니다.
+  <sup>[[link](#function-calls-and-parentheses)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -334,7 +393,9 @@
   2 |> rem(3) |> g
   ```
 
-* 매크로에서 do 블록이 넘겨진 경우 괄호를 생략하세요.
+* <a name="macro-calls-and-parentheses"></a>
+  매크로에서 do 블록이 넘겨진 경우 괄호를 생략하세요.
+  <sup>[[link](#macro-calls-and-parentheses)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -348,8 +409,11 @@
   end
   ```
 
-* 파이프라인의 밖에서는 마지막 인자가 함수라면 선택적으로 함수 호출에 괄호를
+* <a name="parentheses-and-function-expressions"></a>
+  파이프라인의 밖에서는 마지막 인자가 함수라면 선택적으로 함수 호출에 괄호를
   생략하세요.
+  Elixir 1.4부터는 컴파일러가 모호한 부분을 찾아 경고해 줍니다.
+  <sup>[[link](#parentheses-and-function-expressions)]</sup>
 
   ```elixir
   # 권장함
@@ -363,14 +427,16 @@
   end
   ```
 
-* 인자 개수가 0인 함수를 호출할 경우 괄호를 사용해 변수와 구분하세요.
+* <a name="parentheses-and-functions-with-zero-arity"></a>
+  인자 개수가 0인 함수를 호출할 경우 괄호를 사용해 변수와 구분하세요.
+  <sup>[[link](#parentheses-and-functions-with-zero-arity)]</sup>
 
   ```elixir
   defp do_stuff, do: ...
 
   # 권장하지 않음
   def my_func do
-    do_stuff # 변수일 수도 함수 호출일 수도 있음
+    do_stuff # 변수인가요 함수 호출인가요?
   end
 
   # 권장함
@@ -379,10 +445,37 @@
   end
   ```
 
+* <a name="with-clauses"></a>
+  `with` 절 안의 구문을 들여쓰기하고 정렬하세요.
+  `do:` 인자는 새 줄에 평범하게 들여쓰게 하세요.
+  <sup>[[link](#with-clauses)]</sup>
+
+  ```elixir
+  with {:ok, foo} <- fetch(opts, :foo),
+       {:ok, bar} <- fetch(opts, :bar),
+    do: {:ok, foo, bar}
+  ```
+
+* <a name="with-else"></a>
+  `with` 표현식이 두 줄이상의 `do` 블록을 가지거나 `else` 옵션을 가진다면,
+  여러 줄 구문을 사용하세요.
+  <sup>[[link](#with-else)]</sup>
+
+  ```elixir
+  with {:ok, foo} <- fetch(opts, :foo),
+       {:ok, bar} <- fetch(opts, :bar) do
+    {:ok, foo, bar}
+  else
+    :error ->
+      {:error, :bad_arg}
+  end
+  ```
 
 ### Naming
 
-* 애텀, 함수, 변수에 `snake_case`를 사용하세요.
+* <a name="snake-case"></a>
+  애텀, 함수, 변수에 `snake_case`를 사용하세요.
+  <sup>[[link](#snake-case)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -410,8 +503,10 @@
   end
   ```
 
-* 모듈에 `CamelCase`를 사용하세요. (HTTP, RFC, XML 같은 약어는 대문자로
+* <a name="camel-case"></a>
+  모듈에 `CamelCase`를 사용하세요. (HTTP, RFC, XML 같은 약어는 대문자로
   유지합니다.)
+  <sup>[[link](#camel-case)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -437,11 +532,11 @@
   end
   ```
 
-* _가드 안에서 사용할 수 있는_ 선언적(predicate) 매크로(부울값을 반환하는 컴파일
+* <a name="predicate-macro-names-with-guards"></a>
+  _가드 안에서 사용할 수 있는_ 선언적(predicate) 매크로(부울값을 반환하는 컴파일
   시 생성되는 함수)의 이름은 접두사 `is_`로 시작해야 합니다.
-  허용된 표현식의 목록은
-  [Expressions in Guard Clauses](http://elixir-lang.org/getting-started/case-cond-and-if.html#expressions-in-guard-clauses)를
-  확인하세요.
+  허용된 표현식의 목록은 [Guard][Guard Expressions] 문서를 확인하세요.
+  <sup>[[link](#predicate-macro-names-with-guards)]</sup>
 
   ```elixir
   defmacro is_cool(var) do
@@ -449,8 +544,10 @@
   end
   ```
 
-* _가드 안에서 사용할 수 없는_ 선언적 함수의 이름은 `is_`나 그와 비슷한 접두사
+* <a name="predicate-macro-names-no-guards"></a>
+  _가드 안에서 사용할 수 없는_ 선언적 함수의 이름은 `is_`나 그와 비슷한 접두사
   대신 끝에 물음표(`?`)를 붙여야 합니다.
+  <sup>[[link](#predicate-macro-names-no-guards)]</sup>
 
   ```elixir
   def cool?(var) do
@@ -458,27 +555,33 @@
   end
   ```
 
-* 같은 이름의 public 함수가 있는 private 함수는 `do_`로 시작해야 합니다.
+* <a name="private-functions-with-same-name-as-public"></a>
+  같은 이름의 public 함수가 있는 private 함수는 `do_`로 시작해야 합니다.
+  <sup>[[link](#private-functions-with-same-name-as-public)]</sup>
 
   ```elixir
   def sum(list), do: do_sum(list, 0)
 
   # private 함수
   defp do_sum([], total), do: total
-  defp do_sum([head|tail], total), do: do_sum(tail, head + total)
+  defp do_sum([head | tail], total), do: do_sum(tail, head + total)
   ```
-
 
 ### Comments
 
-* 스스로 설명되는 코드를 적고 이 절을 무시하세요.
-  진지합니다!
+* <a name="expressive-code"></a>
+  스스로 설명할 수 있는 코드를 작성하고 제어 흐름, 구조 및 이름 지정을 통해
+  프로그램의 의도를 전달하십시오.
+  <sup>[[link](#expressive-code)]</sup>
 
-* 주석의 앞의 `#` 문자와 주석의 내용 사이에 공백 하나를 사용합니다.
+* <a name="comment-leading-spaces"></a>
+  주석의 앞의 `#` 문자와 주석의 내용 사이에 공백 하나를 사용합니다.
+  <sup>[[link](#comment-leading-spaces)]</sup>
 
-* 한 단어보다 긴 주석은 대문자로 시작하고 문장 부호를 사용합니다.
-  문단의 뒤에 [공백 하나](http://en.wikipedia.org/wiki/Sentence_spacing)를
-  사용합니다.
+* <a name="comment-spacing"></a>
+  한 단어보다 긴 주석은 대문자로 시작하고 문장 부호를 사용합니다.
+  문단의 뒤에 [공백 하나][Sentence Spacing]를 사용합니다.
+  <sup>[[link](#comment-spacing)]</sup>
 
   ```elixir
   # not preferred
@@ -487,40 +590,63 @@
 
 #### Comment Annotations
 
-* 어노테이션은 보통 해당 코드의 바로 위에 적어야 합니다.
+* <a name="annotations"></a>
+  어노테이션은 보통 해당 코드의 바로 위에 적어야 합니다.
+  <sup>[[link](#annotations)]</sup>
 
-* 어노테이션 키워드 뒤에는 콜론과 한 개의 공백을 넣고 문제점을 적습니다.
+* <a name="annotation-keyword"></a>
+  어노테이션 키워드 뒤에는 콜론과 한 개의 공백을 넣고 문제점을 적습니다.
+  <sup>[[link](#annotation-keyword)]</sup>
 
-* 문제를 설명하는 데 여러 줄이 필요하면 첫 줄을 제외하고 `#` 뒤에 두 개의
+* <a name="multiple-line-annotations"></a>
+  문제를 설명하는 데 여러 줄이 필요하면 첫 줄을 제외하고 `#` 뒤에 두 개의
   공백으로 들여쓰기를 합니다.
+  <sup>[[link](#multiple-line-annotations)]</sup>
 
-* 문제가 너무 뻔해 문서화가 필요 없을 때에는, 어노테이션을 해당 줄의 뒤에 달고
+* <a name="exceptions-to-annotations"></a>
+  문제가 너무 뻔해 문서화가 필요 없을 때에는, 어노테이션을 해당 줄의 뒤에 달고
   내용을 생략합니다.
   이 사용법은 예외이며 룰의 일부가 아닙니다.
+  <sup>[[link](#exceptions-to-annotations)]</sup>
 
-* `TODO`는 나중에 추가해야 하는 없는 기능을 설명할 때 사용합니다.
+* <a name="todo-notes"></a>
+  `TODO`는 나중에 추가해야 하는 없는 기능을 설명할 때 사용합니다.
+  <sup>[[link](#todo-notes)]</sup>
 
-* `FIXME`는 고쳐야 하는 망가진 코드를 설명할 때 사용합니다.
+* <a name="fixme-notes"></a>
+  `FIXME`는 고쳐야 하는 망가진 코드를 설명할 때 사용합니다.
+  <sup>[[link](#fixme-notes)]</sup>
 
-* `OPTIMIZE`는 성능 문제가 될 수 있는 느리거나 비효율적인 코드를 설명할 때
+* <a name="optimize-notes"></a>
+  `OPTIMIZE`는 성능 문제가 될 수 있는 느리거나 비효율적인 코드를 설명할 때
   사용합니다.
+  <sup>[[link](#optimize-notes)]</sup>
 
-* `HACK`은 리팩터링해야 할 의문이 드는 코딩 관습이 사용된 코드 스멜을 설명할 때
+* <a name="hack-notes"></a>
+  `HACK`은 리팩터링해야 할 의문이 드는 코딩 관습이 사용된 코드 스멜을 설명할 때
   사용합니다.
+  <sup>[[link](#hack-notes)]</sup>
 
-* `REVIEW`는 의도대로 동작하는지 확인이 필요할 때 사용합니다.
+* <a name="review-notes"></a>
+  `REVIEW`는 의도대로 동작하는지 확인이 필요할 때 사용합니다.
   예: `REVIEW: 지금 이걸로 클라이언트가 X를 올바르게 수행할 수 있나요?`
+  <sup>[[link](#review-notes)]</sup>
 
-* 필요하다고 생각할 때 다른 사용자 정의 어노테이션 키워드를 사용하세요.
+* <a name="custom-keywords"></a>
+  필요하다고 생각할 때 다른 사용자 정의 어노테이션 키워드를 사용하세요.
   사용하셨으면 프로젝트의 `README`같은 곳에 문서화하세요.
-
+  <sup>[[link](#custom-keywords)]</sup>
 
 ### Modules
 
-* 테스트처럼 모듈이 다른 모듈 안에서만 사용되지 않는 이상 파일당 한 모듈만
+* <a name="one-module-per-file"></a>
+  테스트처럼 모듈이 다른 모듈 안에서만 사용되지 않는 이상 파일당 한 모듈만
   사용하세요.
+  <sup>[[link](#one-module-per-file)]</sup>
 
-* `CamelCase` 모듈 이름에 대해 snake_case 파일 이름을 사용하세요.
+* <a name="underscored-filenames"></a>
+  `CamelCase` 모듈 이름에 대해 snake_case 파일 이름을 사용하세요.
+  <sup>[[link](#underscored-filenames)]</sup>
 
   ```elixir
   # some_module.ex 파일
@@ -529,7 +655,9 @@
   end
   ```
 
-* 모듈 이름 중첩의 각 단계로 디렉터리를 표현하세요.
+* <a name="module-name-nesting"></a>
+  모듈 이름 중첩의 각 단계로 디렉터리를 표현하세요.
+  <sup>[[link](#module-name-nesting)]</sup>
 
   ```elixir
   # parser/core/xml_parser.ex 파일
@@ -538,26 +666,31 @@
   end
   ```
 
-* defmodule 뒤에 개행을 하지 않습니다.
+* <a name="defmodule-spacing"></a>
+  `defmodule` 뒤에 빈줄을 넣지 않습니다.
+  <sup>[[link](#defmodule-spacing)]</sup>
 
-* 첫 번째 함수 def 앞에 개행을 하지 않습니다.
+* <a name="module-block-spacing"></a>
+  module 수준 코드 블록 뒤에 빈줄을 넣으세요.
+  <sup>[[link](#module-block-spacing)]</sup>
 
-* "module-level-code-blocks" 뒤에 개행 하세요.
+* <a name="module-attribute-ordering"></a>
+  모듈 속성과 디렉티브는 다음 순서로 나열하세요.
+  <sup>[[link](#module-attribute-ordering)]</sup>
 
-* 모듈 속성과 디렉티브는 다음 순서로 나열하세요.
+  1. `@moduledoc`
+  1. `@behaviour`
+  1. `use`
+  1. `import`
+  1. `alias`
+  1. `require`
+  1. `defstruct`
+  1. `@type`
+  1. `@module_attribute`
 
-    1. `@moduledoc`
-    1. `@behaviour`
-    1. `use`
-    1. `import`
-    1. `alias`
-    1. `require`
-    1. `defstruct`
-    1. `@type`
-    1. `@module_attribute`
-
-  그리고 완벽주의자라면 각각 알파벳순으로 정렬하세요. 여기에 모듈 안을 어떻게
-  정렬해야 하는지 전반적으로 보여주는 예제가 있습니다.
+  그리고 각 그룹 사이에 빈줄을 넣고 (모듈 이름같은) 용어를 알파벳순으로
+  정렬하세요.
+  여기에 모듈 안을 어떻게 정렬해야 하는지 전반적으로 보여주는 예제가 있습니다.
 
   ```elixir
   defmodule MyModule do
@@ -568,10 +701,13 @@
     @behaviour MyBehaviour
 
     use GenServer
+
     import Something
     import SomethingElse
+
     alias My.Long.Module.Name
     alias My.Other.Module.Name
+
     require Integer
 
     defstruct name: nil, params: []
@@ -585,8 +721,10 @@
   end
   ```
 
-* 모듈에서 자신을 참조할 때 `__MODULE__` 수도 변수를 사용하세요. 이렇게하면
+* <a name="module-pseudo-variable"></a>
+  모듈에서 자신을 참조할 때 `__MODULE__` 수도 변수를 사용하세요. 이렇게하면
   모듈 이름이 바뀌었을 때 자신을 참조한 부분의 갱신을 피할 수 있습니다.
+  <sup>[[link](#module-pseudo-variable)]</sup>
 
   ```elixir
   defmodule SomeProject.SomeModule do
@@ -596,7 +734,9 @@
   end
   ```
 
-* 모듈의 자기 참조에 읽기 편한 이름을 사용하고 싶다면, 알리아스를 사용하세요.
+* <a name="alias-self-referencing-modules"></a>
+  모듈의 자기 참조에 읽기 편한 이름을 사용하고 싶다면, 알리아스를 사용하세요.
+  <sup>[[link](#alias-self-referencing-modules)]</sup>
 
   ```elixir
   defmodule SomeProject.SomeModule do
@@ -611,12 +751,12 @@
 
 ### Documentation
 
-Elixir에서 문서화는(`iex`에서 `h`로 읽거나
-[ExDoc](https://github.com/elixir-lang/ex_doc)으로 생성할 때)
-[Module Attributes](http://elixir-lang.org/getting-started/module-attributes.html#as-annotations)
-`@moduledoc`과 `@doc`을 사용합니다.
+Elixir에서 문서화는(`iex`에서 `h`로 읽거나 [ExDoc]으로 생성할 때)
+[Module Attributes] `@moduledoc`과 `@doc`을 사용합니다.
 
-* 항상 `@moduledoc` 속성을 모듈 안의 `defmodule` 다음 줄에 넣으세요.
+* <a name="moduledocs"></a>
+  항상 `@moduledoc` 속성을 모듈 안의 `defmodule` 다음 줄에 넣으세요.
+  <sup>[[link](#moduledocs)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -647,7 +787,9 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   end
   ```
 
-* 모듈을 문서화할 생각이 없다면 `@moduledoc false`을 사용하세요.
+* <a name="moduledoc-false"></a>
+  모듈을 문서화할 생각이 없다면 `@moduledoc false`을 사용하세요.
+  <sup>[[link](#moduledoc-false)]</sup>
 
   ```elixir
   defmodule SomeModule do
@@ -656,7 +798,9 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   end
   ```
 
-* `@moduledoc` 다음의 코드는 개행을 한 줄 넣어 구분하세요.
+* <a name="moduledoc-spacing"></a>
+  `@moduledoc` 다음의 코드는 개행을 한 줄 넣어 구분하세요.
+  <sup>[[link](#moduledoc-spacing)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -678,7 +822,9 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   end
   ```
 
-* 문서화에 마크다운을 사용한 히어독을 사용하세요.
+* <a name="heredocs"></a>
+  문서화에 마크다운을 사용한 히어독을 사용하세요.
+  <sup>[[link](#heredocs)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -710,7 +856,6 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   end
   ```
 
-
 ### Typespecs
 
 타입 스펙은 문서화나 정적 분석기 Dialyzer를 위한 타입과 스펙을 정의하기 위한
@@ -719,7 +864,9 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
 사용자 정의 타입은 다른 디렉티브와 함께 모듈의 제일 위에 정의되어야 합니다.
 ([Modules](#modules)를 확인하세요.)
 
-* `@typedoc`과 `@type` 정의를 함께 두고 각 쌍을 빈 줄로 구분하세요.
+* <a name="typedocs"></a>
+  `@typedoc`과 `@type` 정의를 함께 두고 각 쌍을 빈 줄로 구분하세요.
+  <sup>[[link](#typedocs)]</sup>
 
   ```elixir
   defmodule SomeModule do
@@ -735,8 +882,10 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   end
   ```
 
-* 유니온 타입이 한 줄에 들어가기에는 너무 길다면, 개행을 하고 타입에 맞춰
+* <a name="union-types"></a>
+  유니온 타입이 한 줄에 들어가기에는 너무 길다면, 개행을 하고 타입에 맞춰
   들여 쓰기를 합니다.
+  <sup>[[link](#union-types)]</sup>
 
   ```elixir
   # 권장하지 않음 - 들여 쓰기 없음
@@ -754,8 +903,10 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
                          | a_final_type
   ```
 
-* 모듈의 메인 타입 이름은 `t`로 합니다. 예를 들어, 구조체를 위한 타입 사양은
+* <a name="naming-main-types"></a>
+  모듈의 메인 타입 이름은 `t`로 합니다. 예를 들어, 구조체를 위한 타입 사양은
   이런식으로 할 수 있습니다.
+  <sup>[[link](#naming-main-types)]</sup>
 
   ```elixir
   defstruct name: nil, params: []
@@ -766,7 +917,9 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   }
   ```
 
-* 스펙은 함수 선언의 직전에 개행으로 구분해 두세요.
+* <a name="spec-spacing"></a>
+  스펙은 함수 선언의 직전에 빈줄을 사이에 넣지 않고 넣습니다.
+  <sup>[[link](#spec-spacing)]</sup>
 
   ```elixir
   @spec some_function(term) :: result
@@ -775,10 +928,11 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   end
   ```
 
-
 ### Structs
 
-* 모든 구조체 필드의 기본값이 nil이라면 애텀의 리스트로 필드를 넣습니다.
+* <a name="nil-struct-field-defaults"></a>
+  모든 구조체 필드의 기본값이 nil이라면 애텀의 리스트로 필드를 넣습니다.
+  <sup>[[link](#nil-struct-field-defaults)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -788,7 +942,9 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   defstruct [:name, :params]
   ```
 
-* 구조체 선언이 한 줄을 넘어 갈 때, 들여쓰기는 첫 번째 키에 맞추세요.
+* <a name="additional-struct-def-lines"></a>
+  구조체 선언이 한 줄을 넘어 갈 때, 들여쓰기는 첫 번째 키에 맞추세요.
+  <sup>[[link](#additional-struct-def-lines)]</sup>
 
   ```elixir
   defstruct foo: "test", bar: true, baz: false,
@@ -798,7 +954,9 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
 
 ### Exceptions
 
-* 예외 이름 뒤에 `Error`를 붙이세요.
+* <a name="exception-names"></a>
+  예외 이름 뒤에 `Error`를 붙이세요.
+  <sup>[[link](#exception-names)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -816,8 +974,10 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   end
   ```
 
-* 예외를 발생시킬 때는 뒤에 문장 부호를 붙이지 않은 소문자로 시작하는 에러
+* <a name="lowercase-error-messages"></a>
+  예외를 발생시킬 때는 뒤에 문장 부호를 붙이지 않은 소문자로 시작하는 에러
   메세지를 사용하세요.
+  <sup>[[link](#lowercase-error-messages)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -827,15 +987,15 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나
   raise ArgumentError, "this is not valid"
   ```
 
-
 ### Collections
 
 _콜렉션에 관한 가이드라인은 아직 추가되지 않았습니다._
 
-
 ### Strings
 
-* 문자열은 바이너리 패턴보다 문자열 연결 연산자를 이용해 매칭하세요.
+* <a name="strings-matching-with-concatenator"></a>
+  문자열은 바이너리 패턴보다 문자열 연결 연산자를 이용해 매칭하세요.
+  <sup>[[link](#strings-matching-with-concatenator)]</sup>
 
   ```elixir
   # 권장하지 않음
@@ -845,16 +1005,36 @@ _콜렉션에 관한 가이드라인은 아직 추가되지 않았습니다._
   "my" <> _rest = "my string"
   ```
 
-
 ### Regular Expressions
 
 _정규 표현식에 관한 가이드라인은 아직 추가되지 않았습니다._
 
-
 ### Metaprogramming
 
-* 불필요한 메타 프로그래밍을 피하세요.
+* <a name="avoid-metaprogramming"></a>
+  불필요한 메타 프로그래밍을 피하세요.
+  <sup>[[link](#avoid-metaprogramming)]</sup>
 
+### Testing
+
+* <a name="testing-assert-order"></a>
+  [ExUnit]의 단언문을 적을 때에는, 테스트 안의 expected와 actual의 순서에
+  일관성을 유지하세요.
+  단언문이 패턴 매칭이 아니라면, expected 결과를 오른쪽에 두는 것을 권장합니다.
+  <sup>[[link](#testing-assert-order)]</sup>
+
+  ```elixir
+  # preferred - expected result on the right
+  assert actual_function(1) == true
+  assert actual_function(2) == false
+
+  # not preferred - inconsistent order
+  assert actual_function(1) == true
+  assert false == actual_function(2)
+
+  # required - the assertion is a pattern match
+  assert {:ok, expected} = actual_function(3)
+  ```
 
 ### Suggested Alternatives
 
@@ -863,9 +1043,11 @@ _정규 표현식에 관한 가이드라인은 아직 추가되지 않았습니�
 
 #### Cond
 
-* `cond` 안에서 애텀은 트루시(truthy) 값과 동일하기 때문에 다 잡는
+* <a name="atom-conditions"></a>
+  `cond` 안에서 애텀은 트루시(truthy) 값과 동일하기 때문에 다 잡는
   표현식으로 사용할 수 있습니다.
   추천하는 애텀은 `:else`나 `:otherwise`입니다.
+  <sup>[[link](#atom-conditions)]</sup>
 
   ```elixir
   cond do
@@ -888,15 +1070,26 @@ _정규 표현식에 관한 가이드라인은 아직 추가되지 않았습니�
   end
   ```
 
+### Alternative Style Guides
+
+* [Aleksei Magusev's Elixir Style Guide](https://github.com/lexmag/elixir-style-guide#readme)
+  — An opinionated Elixir style guide stemming from the coding style practiced
+  in the Elixir core libraries.
+  Developed by [Aleksei Magusev](https://github.com/lexmag) and
+  [Andrea Leopardi](https://github.com/whatyouhide), members of Elixir core team.
+  While the Elixir project doesn't adhere to any specific style guide,
+  this is the closest available guide to its conventions.
+
+* [Credo's Elixir Style Guide](https://github.com/rrrene/elixir-style-guide#readme)
+  — Style Guide for the Elixir language, implemented by
+  [Credo](http://credo-ci.org) static code analysis tool.
 
 ### Tools
 
 Refer to [Awesome Elixir][Code Analysis] for libraries and tools that can help
 with code analysis and style linting.
 
-
 ## Getting Involved
-
 
 ### Contributing
 
@@ -908,24 +1101,19 @@ Thanks in advance for your help!
 Check the [contributing guidelines](CONTRIBUTING.md)
 and [code of conduct](CODE_OF_CONDUCT.md) for more information.
 
-
 ### Spread the Word
 
 A community style guide is meaningless without the community's support. Please
-tweet, [star](https://github.com/levionessa/elixir_style_guide/stargazers), and
-let any Elixir programmer know about [this guide][Elixir Style Guide] so they
-can contribute.
-
+tweet, [star][Stargazers], and let any Elixir programmer know
+about [this guide][Elixir Style Guide] so they can contribute.
 
 ## Copying
-
 
 ### License
 
 ![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png)
 This work is licensed under a
-[Creative Commons Attribution 3.0 Unported License][license]
-
+[Creative Commons Attribution 3.0 Unported License][License]
 
 ### Attribution
 
@@ -934,14 +1122,22 @@ points made in this document were borrowed from the [Ruby community style guide]
 A lot of things were applicable to Elixir and allowed us to get _some_ document
 out quicker to start the conversation.
 
-Here's the
-[list of people who has kindly contributed](https://github.com/levionessa/elixir_style_guide/graphs/contributors)
-to this project.
+Here's the [list of people who has kindly contributed][Contributors] to this
+project.
 
 <!-- Links -->
-[Elixir Style Guide]: https://github.com/levionessa/elixir_style_guide
-[Elixir]: http://elixir-lang.org
-[Hex]: https://hex.pm/packages
-[license]: http://creativecommons.org/licenses/by/3.0/deed.en_US
-[Ruby community style guide]: https://github.com/bbatsov/ruby-style-guide
 [Code Analysis]: https://github.com/h4cc/awesome-elixir#code-analysis
+[Contributors]: https://github.com/christopheradams/elixir_style_guide/graphs/contributors
+[Elixir Style Guide]: https://github.com/christopheradams/elixir_style_guide
+[Elixir]: http://elixir-lang.org
+[ExDoc]: https://github.com/elixir-lang/ex_doc
+[ExUnit]: https://hexdocs.pm/ex_unit/ExUnit.html
+[Guard Expressions]: http://elixir-lang.org/getting-started/case-cond-and-if.html#expressions-in-guard-clauses
+[Hex]: https://hex.pm/packages
+[Japanese]: https://github.com/kenichirow/elixir_style_guide/blob/master/README-jaJP.md
+[Korean]: https://github.com/marocchino/elixir_style_guide/blob/new-korean/README-koKR.md
+[License]: http://creativecommons.org/licenses/by/3.0/deed.en_US
+[Module Attributes]: http://elixir-lang.org/getting-started/module-attributes.html#as-annotations
+[Ruby community style guide]: https://github.com/bbatsov/ruby-style-guide
+[Sentence Spacing]: http://en.wikipedia.org/wiki/Sentence_spacing
+[Stargazers]: https://github.com/christopheradams/elixir_style_guide/stargazers
