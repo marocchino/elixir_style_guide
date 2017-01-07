@@ -1,7 +1,7 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
 **역주**:
-[7418d2a](https://github.com/christopheradams/elixir_style_guide/blob/7418d2a6535f89b8b062f3be80416567516b7b91/README.md)을
+[4abc03f](https://github.com/christopheradams/elixir_style_guide/blob/4abc03f397cc5266244ca26fce371287ff39518d/README.md)을
 기준으로 번역했습니다.
 
 ## 목차
@@ -24,7 +24,7 @@
   * [Metaprogramming](#metaprogramming)
   * [Testing](#testing)
   * [Suggested Alternatives](#suggested-alternatives)
-  * [Style Guides](#style-guides)
+  * [Alternative Style Guides](#alternative-style-guides)
   * [Tools](#tools)
 * __[Getting Involved](#getting-involved)__
   * [Contributing](#contributing)
@@ -55,6 +55,12 @@
 
 혹시 다른 프로젝트에 기여하고 싶으시면, [Hex 패키지 관리자 사이트][Hex]를
 참고하세요.
+
+<a name="translations"></a>
+Translations of the guide are available in the following languages:
+
+* [Japanese]
+* [Korean]
 
 ### Source Code Layout
 
@@ -406,6 +412,7 @@
 * <a name="parentheses-and-function-expressions"></a>
   파이프라인의 밖에서는 마지막 인자가 함수라면 선택적으로 함수 호출에 괄호를
   생략하세요.
+  Elixir 1.4부터는 컴파일러가 모호한 부분을 찾아 경고해 줍니다.
   <sup>[[link](#parentheses-and-function-expressions)]</sup>
 
   ```elixir
@@ -429,7 +436,7 @@
 
   # 권장하지 않음
   def my_func do
-    do_stuff # 변수일 수도 함수 호출일 수도 있음
+    do_stuff # 변수인가요 함수 호출인가요?
   end
 
   # 권장함
@@ -1063,9 +1070,19 @@ _정규 표현식에 관한 가이드라인은 아직 추가되지 않았습니�
   end
   ```
 
-### Style Guides
+### Alternative Style Guides
 
-Check [Awesome Elixir][Style Guides] for a list of alternative style guides.
+* [Aleksei Magusev's Elixir Style Guide](https://github.com/lexmag/elixir-style-guide#readme)
+  — An opinionated Elixir style guide stemming from the coding style practiced
+  in the Elixir core libraries.
+  Developed by [Aleksei Magusev](https://github.com/lexmag) and
+  [Andrea Leopardi](https://github.com/whatyouhide), members of Elixir core team.
+  While the Elixir project doesn't adhere to any specific style guide,
+  this is the closest available guide to its conventions.
+
+* [Credo's Elixir Style Guide](https://github.com/rrrene/elixir-style-guide#readme)
+  — Style Guide for the Elixir language, implemented by
+  [Credo](http://credo-ci.org) static code analysis tool.
 
 ### Tools
 
@@ -1117,9 +1134,10 @@ project.
 [ExUnit]: https://hexdocs.pm/ex_unit/ExUnit.html
 [Guard Expressions]: http://elixir-lang.org/getting-started/case-cond-and-if.html#expressions-in-guard-clauses
 [Hex]: https://hex.pm/packages
+[Japanese]: https://github.com/kenichirow/elixir_style_guide/blob/master/README-jaJP.md
+[Korean]: https://github.com/marocchino/elixir_style_guide/blob/new-korean/README-koKR.md
 [License]: http://creativecommons.org/licenses/by/3.0/deed.en_US
 [Module Attributes]: http://elixir-lang.org/getting-started/module-attributes.html#as-annotations
 [Ruby community style guide]: https://github.com/bbatsov/ruby-style-guide
 [Sentence Spacing]: http://en.wikipedia.org/wiki/Sentence_spacing
 [Stargazers]: https://github.com/christopheradams/elixir_style_guide/stargazers
-[Style Guides]: https://github.com/h4cc/awesome-elixir#styleguides
