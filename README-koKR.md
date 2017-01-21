@@ -1,7 +1,7 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
 **역주**:
-[4abc03f](https://github.com/christopheradams/elixir_style_guide/blob/4abc03f397cc5266244ca26fce371287ff39518d/README.md)을
+[3669864](https://github.com/christopheradams/elixir_style_guide/blob/3669864b00dce8bbfaed9c92d6415d285ec13669/README.md)을
 기준으로 번역했습니다.
 
 ## 목차
@@ -59,6 +59,7 @@
 <a name="translations"></a>
 Translations of the guide are available in the following languages:
 
+* [Chinese Traditional]
 * [Japanese]
 * [Korean]
 
@@ -912,7 +913,7 @@ Elixir에서 문서화는(`iex`에서 `h`로 읽거나 [ExDoc]으로 생성할 �
   defstruct name: nil, params: []
 
   @type t :: %__MODULE__{
-    name: String.t,
+    name: String.t | nil,
     params: Keyword.t
   }
   ```
@@ -1126,6 +1127,7 @@ Here's the [list of people who has kindly contributed][Contributors] to this
 project.
 
 <!-- Links -->
+[Chinese Traditional]: https://github.com/elixirtw/elixir_style_guide/blob/master/README_zhTW.md
 [Code Analysis]: https://github.com/h4cc/awesome-elixir#code-analysis
 [Contributors]: https://github.com/christopheradams/elixir_style_guide/graphs/contributors
 [Elixir Style Guide]: https://github.com/christopheradams/elixir_style_guide
