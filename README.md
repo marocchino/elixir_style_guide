@@ -1,7 +1,7 @@
 # [The Elixir Style Guide][Elixir Style Guide]
 
 **역주**:
-[3669864](https://github.com/christopheradams/elixir_style_guide/blob/3669864b00dce8bbfaed9c92d6415d285ec13669/README.md)을
+[33a75f7](https://github.com/christopheradams/elixir_style_guide/blob/33a75f70704c3876d5997b373282005712240c11/README.md)을
 기준으로 번역했습니다.
 
 ## 목차
@@ -23,7 +23,6 @@
   * _Regular Expressions_
   * [Metaprogramming](#metaprogramming)
   * [Testing](#testing)
-  * [Suggested Alternatives](#suggested-alternatives)
   * [Alternative Style Guides](#alternative-style-guides)
   * [Tools](#tools)
 * __[Getting Involved](#getting-involved)__
@@ -47,11 +46,9 @@
 
 ## The Guide
 
-여기에 [Elixir 프로그래밍 언어][Elixir]의 커뮤니티 스타일 가이드를 만들려고
-합니다.
-편하게 풀 리퀘스트를 던지거나 기여를 해주세요.
-정말로 훨씬 긴 역사를 가진 다른 언어보다 더 활발한 커뮤니티를 Elixir가 가졌으면
-합니다.
+[Elixir 프로그래밍 언어][Elixir]의 커뮤니티 스타일 가이드입니다.
+편하게 풀 리퀘스트를 던지거나 기여를 하시고 활발한 Elixir 커뮤니티의 일부가
+되세요.
 
 혹시 다른 프로젝트에 기여하고 싶으시면, [Hex 패키지 관리자 사이트][Hex]를
 참고하세요.
@@ -64,8 +61,6 @@ Translations of the guide are available in the following languages:
 * [Korean]
 
 ### Source Code Layout
-
-<!-- TODO: Add crafty quote here -->
 
 * <a name="spaces-indentation"></a>
   들여쓰기로 2개의 **공백**을 사용하세요.
@@ -300,6 +295,49 @@ Translations of the guide are available in the following languages:
   end
   ```
 
+* <a name="add-blank-line-after-multiline-assignment"></a>
+  여러줄의 대입은 시각적으로 대입이 끝났다는 걸 표현하기 위해 빈 줄을 하나
+  넣으세요.
+  <sup>[[link](#add-blank-line-after-multiline-assignment)]</sup>
+
+  ```elixir
+  # 권장하지 않음
+  some_string =
+    "Hello"
+    |> String.downcase
+    |> String.strip
+  another_string <> some_string
+
+  # 권장함
+  some_string =
+    "Hello"
+    |> String.downcase
+    |> String.strip
+
+  another_string <> some_string
+  ```
+
+  ```elixir
+  # 역시 권장하지 않음
+  something =
+    if x == 2 do
+      "Hi"
+    else
+      "Bye"
+    end
+  something |> String.downcase
+
+  # 권장함
+  something =
+    if x == 2 do
+      "Hi"
+    else
+      "Bye"
+    end
+
+  something |> String.downcase
+  ```
+
 * <a name="do-with-multi-line-if-unless"></a>
   여러 줄 `if/unless`에 `do:`를 사용하지 마세요.
   <sup>[[link](#do-with-multi-line-if-unless)]</sup>
@@ -350,10 +388,22 @@ Translations of the guide are available in the following languages:
   ```
 
 * <a name="true-as-last-condition"></a>
-  항상 `cond` 구문의 마지막 조건으로 `true`를 사용하세요.
+  항상 매치되는 절이 필요하다면, `cond` 특별 폼(special form)의
+  마지막 조건으로 `true`를 사용하세요.
   <sup>[[link](#true-as-last-condition)]</sup>
 
   ```elixir
+  # 권장하지 않음
+  cond do
+    1 + 2 == 5 ->
+      "Nope"
+    1 + 3 == 5 ->
+      "Uh, uh"
+    :else ->
+      "OK"
+  end
+
+  # 권장함
   cond do
     1 + 2 == 5 ->
       "Nope"
@@ -579,14 +629,23 @@ Translations of the guide are available in the following languages:
   주석의 앞의 `#` 문자와 주석의 내용 사이에 공백 하나를 사용합니다.
   <sup>[[link](#comment-leading-spaces)]</sup>
 
-* <a name="comment-spacing"></a>
-  한 단어보다 긴 주석은 대문자로 시작하고 문장 부호를 사용합니다.
+  ```elixir
+  String.first(some_string) #권장하지 않음
+  String.first(some_string) # 권장함
+  ```
+
+* <a name="comment-grammar"></a>
+  한 단어보다 긴 주석은 대문자로 시작하고 문장은 문장 부호를 사용합니다.
   문단의 뒤에 [공백 하나][Sentence Spacing]를 사용합니다.
-  <sup>[[link](#comment-spacing)]</sup>
+  <sup>[[link](#comment-grammar)]</sup>
 
   ```elixir
-  # not preferred
-  String.upcase(some_string) # Capitalize string.
+  # 권장하지 않음
+  # these lowercase comments are missing punctuation
+
+  # 권장함
+  # Capitalization example
+  # Use punctuation for complete sentences.
   ```
 
 #### Comment Annotations
@@ -596,19 +655,25 @@ Translations of the guide are available in the following languages:
   <sup>[[link](#annotations)]</sup>
 
 * <a name="annotation-keyword"></a>
-  어노테이션 키워드 뒤에는 콜론과 한 개의 공백을 넣고 문제점을 적습니다.
+  어노테이션 키워드는 대문자로 적고, 뒤에는 콜론과 한 개의 공백을 넣고 문제점을
+  적습니다.
   <sup>[[link](#annotation-keyword)]</sup>
 
-* <a name="multiple-line-annotations"></a>
-  문제를 설명하는 데 여러 줄이 필요하면 첫 줄을 제외하고 `#` 뒤에 두 개의
-  공백으로 들여쓰기를 합니다.
-  <sup>[[link](#multiple-line-annotations)]</sup>
+  ```elixir
+  # TODO: Deprecate in v1.5.
+  def some_function(arg), do: {:ok, arg}
+  ```
 
 * <a name="exceptions-to-annotations"></a>
   문제가 너무 뻔해 문서화가 필요 없을 때에는, 어노테이션을 해당 줄의 뒤에 달고
   내용을 생략합니다.
   이 사용법은 예외이며 룰의 일부가 아닙니다.
   <sup>[[link](#exceptions-to-annotations)]</sup>
+
+  ```elixir
+  start_task()
+  Process.sleep(5000) # FIXME
+  ```
 
 * <a name="todo-notes"></a>
   `TODO`는 나중에 추가해야 하는 없는 기능을 설명할 때 사용합니다.
@@ -688,6 +753,9 @@ Translations of the guide are available in the following languages:
   1. `defstruct`
   1. `@type`
   1. `@module_attribute`
+  1. `@callback`
+  1. `@macrocallback`
+  1. `@optional_callbacks`
 
   그리고 각 그룹 사이에 빈줄을 넣고 (모듈 이름같은) 용어를 알파벳순으로
   정렬하세요.
@@ -717,6 +785,12 @@ Translations of the guide are available in the following languages:
 
     @module_attribute :foo
     @other_attribute 100
+
+    @callback some_function(term) :: :ok | {:error, term}
+
+    @macrocallback macro_name(term) :: Macro.t
+
+    @optional_callbacks macro_name: 1
 
     ...
   end
@@ -749,6 +823,23 @@ Translations of the guide are available in the following languages:
   end
   ```
 
+* <a name="repetitive-module-names"></a>
+  모듈 이름과 네임스페이스의 반복되는 파편화를 피하세요.
+  이 것은 전체적인 가독성을 향상시키고 [모호한 알리아스](Contributing Aliases)를
+  제거 할 수 있숩니다.
+  <sup>[[link](#repetitive-module-names)]</sup>
+
+  ```elixir
+  # 권장하지 않음
+  defmodule Todo.Todo do
+    ...
+  end
+
+  # 권장함
+  defmodule Todo.Item do
+    ...
+  end
+  ```
 
 ### Documentation
 
@@ -1037,40 +1128,6 @@ _정규 표현식에 관한 가이드라인은 아직 추가되지 않았습니�
   assert {:ok, expected} = actual_function(3)
   ```
 
-### Suggested Alternatives
-
-제시된 대안은 아직 커뮤니티에서 많이 보이진 않지만
-가치가 있을 스타일들입니다.
-
-#### Cond
-
-* <a name="atom-conditions"></a>
-  `cond` 안에서 애텀은 트루시(truthy) 값과 동일하기 때문에 다 잡는
-  표현식으로 사용할 수 있습니다.
-  추천하는 애텀은 `:else`나 `:otherwise`입니다.
-  <sup>[[link](#atom-conditions)]</sup>
-
-  ```elixir
-  cond do
-    1 + 2 == 5 ->
-      "Nope"
-    1 + 3 == 5 ->
-      "Uh, uh"
-    :else ->
-      "OK"
-  end
-
-  # 이것과 동일
-  cond do
-    1 + 2 == 5 ->
-      "Nope"
-    1 + 3 == 5 ->
-      "Uh, uh"
-    true ->
-      "OK"
-  end
-  ```
-
 ### Alternative Style Guides
 
 * [Aleksei Magusev's Elixir Style Guide](https://github.com/lexmag/elixir-style-guide#readme)
@@ -1099,8 +1156,8 @@ best practices in Elixir.
 Feel free to open tickets or send pull requests with improvements.
 Thanks in advance for your help!
 
-Check the [contributing guidelines](CONTRIBUTING.md)
-and [code of conduct](CODE_OF_CONDUCT.md) for more information.
+Check the [contributing guidelines][Contributing]
+and [code of conduct][Code Of Conduct] for more information.
 
 ### Spread the Word
 
@@ -1129,6 +1186,9 @@ project.
 <!-- Links -->
 [Chinese Traditional]: https://github.com/elixirtw/elixir_style_guide/blob/master/README_zhTW.md
 [Code Analysis]: https://github.com/h4cc/awesome-elixir#code-analysis
+[Code Of Conduct]: https://github.com/christopheradams/elixir_style_guide/blob/master/CODE_OF_CONDUCT.md
+[Conflicting Aliases]: https://elixirforum.com/t/using-aliases-for-fubar-fubar-named-module/1723
+[Contributing]: https://github.com/elixir-lang/elixir/blob/master/CODE_OF_CONDUCT.md
 [Contributors]: https://github.com/christopheradams/elixir_style_guide/graphs/contributors
 [Elixir Style Guide]: https://github.com/christopheradams/elixir_style_guide
 [Elixir]: http://elixir-lang.org
