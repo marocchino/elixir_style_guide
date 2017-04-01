@@ -19,7 +19,6 @@
   * _Regular Expressions_
   * [Metaprogramming](#metaprogramming)
   * [Testing](#testing)
-  * [Suggested Alternatives](#suggested-alternatives)
   * [Alternative Style Guides](#alternative-style-guides)
   * [Tools](#tools)
 * __[Getting Involved](#getting-involved)__
@@ -42,11 +41,9 @@ Don't stifle the style.
 
 ## The Guide
 
-This is our attempt at starting a community style guide for the
-[Elixir programming language][Elixir].
-Please feel free to make pull requests and contribute.
-We really want Elixir to have as vibrant of a community as any language that's
-been around five times as long.
+This is community style guide for the [Elixir programming language][Elixir].
+Please feel free to make pull requests and suggestions, and be a part of
+Elixir's vibrant community.
 
 If you're looking for other projects to contribute to please see the
 [Hex package manager site][Hex].
@@ -59,8 +56,6 @@ Translations of the guide are available in the following languages:
 * [Korean]
 
 ### Source Code Layout
-
-<!-- TODO: Add crafty quote here -->
 
 * <a name="spaces-indentation"></a>
   Use two **spaces** per indentation level.
@@ -296,6 +291,49 @@ Translations of the guide are available in the following languages:
   end
   ```
 
+* <a name="add-blank-line-after-multiline-assignment"></a>
+  Add a blank line after a multiline assignment as a
+  visual cue that the assignment is 'over'.
+  <sup>[[link](#add-blank-line-after-multiline-assignment)]</sup>
+
+  ```elixir
+  # not preferred
+  some_string =
+    "Hello"
+    |> String.downcase
+    |> String.strip
+  another_string <> some_string
+
+  # preferred
+  some_string =
+    "Hello"
+    |> String.downcase
+    |> String.strip
+
+  another_string <> some_string
+  ```
+
+  ```elixir
+  # also not preferred
+  something =
+    if x == 2 do
+      "Hi"
+    else
+      "Bye"
+    end
+  something |> String.downcase
+
+  # preferred
+  something =
+    if x == 2 do
+      "Hi"
+    else
+      "Bye"
+    end
+
+  something |> String.downcase
+  ```
+
 * <a name="do-with-multi-line-if-unless"></a>
   Never use `do:` for multi-line `if/unless`.
   <sup>[[link](#do-with-multi-line-if-unless)]</sup>
@@ -346,10 +384,22 @@ Translations of the guide are available in the following languages:
   ```
 
 * <a name="true-as-last-condition"></a>
-  Always use `true` as the last condition of a `cond` statement.
+  Use `true` as the last condition of the `cond` special form when you need a
+  clause that always matches.
   <sup>[[link](#true-as-last-condition)]</sup>
 
   ```elixir
+  # not preferred
+  cond do
+    1 + 2 == 5 ->
+      "Nope"
+    1 + 3 == 5 ->
+      "Uh, uh"
+    :else ->
+      "OK"
+  end
+
+  # preferred
   cond do
     1 + 2 == 5 ->
       "Nope"
@@ -578,14 +628,23 @@ Translations of the guide are available in the following languages:
   the comment.
   <sup>[[link](#comment-leading-spaces)]</sup>
 
-* <a name="comment-spacing"></a>
-  Comments longer than a word are capitalized and use punctuation.
+  ```elixir
+  String.first(some_string) #not preferred
+  String.first(some_string) # preferred
+  ```
+
+* <a name="comment-grammar"></a>
+  Comments longer than a word are capitalized, and sentences use punctuation.
   Use [one space][Sentence Spacing] after periods.
-  <sup>[[link](#comment-spacing)]</sup>
+  <sup>[[link](#comment-grammar)]</sup>
 
   ```elixir
   # not preferred
-  String.upcase(some_string) # Capitalize string.
+  # these lowercase comments are missing punctuation
+
+  # preferred
+  # Capitalization example
+  # Use punctuation for complete sentences.
   ```
 
 #### Comment Annotations
@@ -596,14 +655,14 @@ Translations of the guide are available in the following languages:
   <sup>[[link](#annotations)]</sup>
 
 * <a name="annotation-keyword"></a>
-  The annotation keyword is followed by a colon and a space, then a note
-  describing the problem.
+  The annotation keyword is uppercase, and is followed by a colon and a space,
+  then a note describing the problem.
   <sup>[[link](#annotation-keyword)]</sup>
 
-* <a name="multiple-line-annotations"></a>
-  If multiple lines are required to describe the problem, subsequent lines
-  should be indented two spaces after the `#`.
-  <sup>[[link](#multiple-line-annotations)]</sup>
+  ```elixir
+  # TODO: Deprecate in v1.5.
+  def some_function(arg), do: {:ok, arg}
+  ```
 
 * <a name="exceptions-to-annotations"></a>
   In cases where the problem is so obvious that any documentation would be
@@ -611,6 +670,11 @@ Translations of the guide are available in the following languages:
   note.
   This usage should be the exception and not the rule.
   <sup>[[link](#exceptions-to-annotations)]</sup>
+
+  ```elixir
+  start_task()
+  Process.sleep(5000) # FIXME
+  ```
 
 * <a name="todo-notes"></a>
   Use `TODO` to note missing features or functionality that should be added at a
@@ -692,6 +756,9 @@ Translations of the guide are available in the following languages:
   1. `defstruct`
   1. `@type`
   1. `@module_attribute`
+  1. `@callback`
+  1. `@macrocallback`
+  1. `@optional_callbacks`
 
   Add a blank line between each grouping, and sort the terms (like module names)
   alphabetically.
@@ -722,6 +789,12 @@ Translations of the guide are available in the following languages:
     @module_attribute :foo
     @other_attribute 100
 
+    @callback some_function(term) :: :ok | {:error, term}
+
+    @macrocallback macro_name(term) :: Macro.t
+
+    @optional_callbacks macro_name: 1
+
     ...
   end
   ```
@@ -750,6 +823,24 @@ Translations of the guide are available in the following languages:
     defstruct [:name]
 
     def name(%SomeModule{name: name}), do: name
+  end
+  ```
+
+* <a name="repetitive-module-names"></a>
+  Avoid repeating fragments in module names and namespaces.
+  This improves overall readability and
+  eliminates [ambiguous aliases][Conflicting Aliases].
+  <sup>[[link](#repetitive-module-names)]</sup>
+
+  ```elixir
+  # not preferred
+  defmodule Todo.Todo do
+    ...
+  end
+
+  # preferred
+  defmodule Todo.Item do
+    ...
   end
   ```
 
@@ -1044,40 +1135,6 @@ _No guidelines for regular expressions have been added yet._
   assert {:ok, expected} = actual_function(3)
   ```
 
-### Suggested Alternatives
-
-Suggested alternatives are styles that haven't been seen much in the community
-yet but might provide some value.
-
-#### Cond
-
-* <a name="atom-conditions"></a>
-  An atom can be used as a catch-all expression in a `cond` as it evaluates
-  to a truthy value.
-  Suggested atoms are `:else` or `:otherwise`
-  <sup>[[link](#atom-conditions)]</sup>
-
-  ```elixir
-  cond do
-    1 + 2 == 5 ->
-      "Nope"
-    1 + 3 == 5 ->
-      "Uh, uh"
-    :else ->
-      "OK"
-  end
-
-  # is the same as
-  cond do
-    1 + 2 == 5 ->
-      "Nope"
-    1 + 3 == 5 ->
-      "Uh, uh"
-    true ->
-      "OK"
-  end
-  ```
-
 ### Alternative Style Guides
 
 * [Aleksei Magusev's Elixir Style Guide](https://github.com/lexmag/elixir-style-guide#readme)
@@ -1106,8 +1163,8 @@ best practices in Elixir.
 Feel free to open tickets or send pull requests with improvements.
 Thanks in advance for your help!
 
-Check the [contributing guidelines](CONTRIBUTING.md)
-and [code of conduct](CODE_OF_CONDUCT.md) for more information.
+Check the [contributing guidelines][Contributing]
+and [code of conduct][Code Of Conduct] for more information.
 
 ### Spread the Word
 
@@ -1130,12 +1187,15 @@ points made in this document were borrowed from the [Ruby community style guide]
 A lot of things were applicable to Elixir and allowed us to get _some_ document
 out quicker to start the conversation.
 
-Here's the [list of people who has kindly contributed][Contributors] to this
+Here's the [list of people who have kindly contributed][Contributors] to this
 project.
 
 <!-- Links -->
 [Chinese Traditional]: https://github.com/elixirtw/elixir_style_guide/blob/master/README_zhTW.md
 [Code Analysis]: https://github.com/h4cc/awesome-elixir#code-analysis
+[Code Of Conduct]: https://github.com/christopheradams/elixir_style_guide/blob/master/CODE_OF_CONDUCT.md
+[Conflicting Aliases]: https://elixirforum.com/t/using-aliases-for-fubar-fubar-named-module/1723
+[Contributing]: https://github.com/elixir-lang/elixir/blob/master/CODE_OF_CONDUCT.md
 [Contributors]: https://github.com/christopheradams/elixir_style_guide/graphs/contributors
 [Elixir Style Guide]: https://github.com/christopheradams/elixir_style_guide
 [Elixir]: http://elixir-lang.org
